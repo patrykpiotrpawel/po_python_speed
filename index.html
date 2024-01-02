@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Programowanie Obiektowe w Pythonie</title>
+
+	<meta name="description" content="PO LAB python">
+	<meta name="author" content="Norbert Waszkowiak">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<style>
+		.row {
+			display: flex;
+		}
+
+		.column {
+			flex: 50%;
+			padding: 10px;
+		}
+	</style>
+	<style>
+		.small-font pre {
+			font-size: 13px;
+			/* Zmniejszenie czcionki */
+			margin-left: 0;
+			/* Usunięcie marginesu z lewej strony */
+			white-space: pre-wrap;
+			/* Zapobieganie przepełnieniu tekstu */
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+
+			<section data-background-gradient="linear-gradient(45deg, #33, #6754e8)">
+				<h2>Wszystko jest obiektem</h2>
+				<p>
+					Programowanie obiektowe (OOP) to paradygmat programowania, który opiera się na koncepcji "obiektów"
+					- strukturze, która
+					zawiera dane w postaci pól, znane również jako atrybuty, oraz kod w postaci procedur, znanych jako
+					metody. W Pythonie
+					wszystko jest obiektem!
+				</p>
+			</section>
+			<section data-background-gradient="linear-gradient(45deg, #33, #6754e8)">
+				<h2>Podstawowe koncepcje</h2>
+				<section>
+					<p>Klasy i obiekty</p>
+					<small>Klasa to szablon do tworzenia obiektów.</small>
+					<small>Obiekt to instancja klasy, posiadająca unikalne atrybuty i metody.</small>
+					<pre><code data-trim class="python">class Samochod:
+		def __init__(self, marka, model):
+				self.marka = marka
+				self.model = model
+
+samochod1 = Samochod("Toyota", "Camry")
+</code></pre>
+					<small>
+						<b>self</b> wskazuje na instancję obiektu, na którym metoda jest wywoływana. Jest to sposób, aby
+						metoda wiedziała, na którym
+						konkretnym obiekcie operuje. Kiedy wywoływana jest metoda na instancji klasy, Python
+						automatycznie przekazuje tę instancję
+						jako pierwszy argument do metody. W tym przypadku nazwa <b>self</b> jest tylko konwencją, a nie
+						wymogiem.
+					</small>
+				</section>
+				<section>
+					<p>Atrybuty i metody</p>
+					<small>Atrybuty to zmienne przypisane do obiektu.</small>
+					<small>Metody to funkcje związane z obiektem.</small>
+					<pre><code data-trim class="python">class Kalkulator:
+		def dodaj(self, x, y):
+				return x + y
+
+kalk = Kalkulator()
+wynik = kalk.dodaj(3, 5)
+								</code></pre>
+				</section>
+			</section>
+			<section>
+				<h2>Dziedziczenie</h2>
+				<section>
+					<p>Tworzenie nowej klasy na podstawie istniejącej.</p>
+					<pre><code data-trim class="python">class Pojazd:
+		def ruszaj(self):
+				print("Pojazd rusza.")
+
+class Samochod(Pojazd):
+		def zatrzymaj(self):
+				print("Samochód zatrzymuje się.")
+	</code></pre>
+				</section>
+				<section>
+					<p>Dziedziczenie wielkrotne.</p>
+					<pre><code data-trim class="python">class PierwszaKlasaNadrzedna:
+		def metoda_pierwsza(self):
+			print("To jest metoda z pierwszej klasy nadrzędnej.")
+					
+class DrugaKlasaNadrzedna:
+		def metoda_druga(self):
+			print("To jest metoda z drugiej klasy nadrzędnej.")
+					
+class KlasaPotomna(PierwszaKlasaNadrzedna, DrugaKlasaNadrzedna):
+		def metoda_potomna(self):
+				print("To jest metoda z klasy potomnej.")
+					
+# Użycie klasy potomnej
+obiekt_potomny = KlasaPotomna()
+obiekt_potomny.metoda_pierwsza() # Dziedziczone z PierwszaKlasaNadrzedna
+obiekt_potomny.metoda_druga() # Dziedziczone z DrugaKlasaNadrzedna
+obiekt_potomny.metoda_potomna() # Lokalna metoda z KlasaPotomna
+</code></pre>
+				</section>
+
+
+
+
+				<section>
+					<p>Przesłanianie metod</p>
+					<pre><code data-trim class="python">class Kolo:
+		def info(self):
+				print("To jest kółko.")
+						
+class KoloKolorowe(Kolo):
+		def info(self):
+				print("To jest kolorowe kółko.")
+					</code></pre>
+				</section>
+
+			</section>
+
+			<section>
+				<h2>Polimorfizm</h2>
+				<section>
+					<p>Przeładowywanie operatorów</p>
+					<pre><code data-trim class="python">class Punkt:
+		def __init__(self, x, y):
+				self.x = x
+				self.y = y
+					
+		def __add__(self, other):
+				return Punkt(self.x + other.x, self.y + other.y)
+a = Punkt(1,2)
+b = Punkt(3,4)
+c = a + b
+</code></pre>
+				</section>
+				<section>
+					<h3>Wywołanie obiektu jak funkcji</h3>
+					<pre><code data-trim class="python">class Licznik:
+		def __init__(self):
+				self.liczba = 0
+
+		def __call__(self):
+				self.liczba += 1
+				return self.liczba
+
+# Użycie obiektu jak funkcji
+licznik = Licznik()
+print(licznik()) # Wywołanie obiektu jak funkcji
+print(licznik()) # Ponowne wywołanie
+
+</code></pre>
+				</section>
+			</section>
+			<section>
+				<h2>Hermetyzacja</h2>
+				<section>
+					<p>Ukrywanie danych</p>
+					<small>Publiczne, chronione i prywatne atrybuty.</small>
+					<pre><code data-trim class="python">class KontoBankowe:
+		def __init__(self, saldo):
+				self._saldo = saldo # chroniony
+				self.__haslo = "tajne" # prywatny
+</code></pre>
+				</section>
+				<section>
+					<p>Manglingu</p>
+					<small>Mechanizm manglingu polega na dodaniu przed nazwą metody prefiksu z nazwą klasy, co sprawia,
+						że staje się trudniejsze,
+						ale nie niemożliwe, dostęp do tych metod z zewnątrz klasy.</small>
+					<pre><code data-trim class="python">class KlasaPrzykladowa:
+		def __init__(self):
+				self.__prywatna_metoda()
+
+		def __prywatna_metoda(self):
+				print("To jest prywatna metoda.")
+
+# Utworzenie obiektu klasy
+obiekt = KlasaPrzykladowa()
+
+# Próba dostępu do prywatnej metody z zewnątrz klasy
+# To jest technicznie możliwe, ale zwykle nie jest zalecane.
+obiekt._KlasaPrzykladowa__prywatna_metoda()
+					</code></pre>
+				</section>
+				<section>
+					<p>Dekoratory w Pythonie</p>
+					<pre style="font-size: 16px;"><code  data-trim class="python">class Osoba:
+		def __init__(self, imie, nazwisko):
+				self.imie = imie
+				self.nazwisko = nazwisko
+
+		@property
+		def pelne_nazwisko(self):
+				return f"{self.imie} {self.nazwisko}"
+</code></pre>
+					<small>
+						<ul>
+							<li>
+								W języku Python dekorator to specjalny rodzaj funkcji, która umożliwia modyfikację
+								funkcji lub
+								metody, do której jest
+								przypisana. Dekoratory są używane do "ozdabiania" funkcji, dodawania dodatkowej
+								funkcjonalności
+								lub modyfikowania jej
+								działania bez zmiany samej funkcji.
+							</li>
+							<li>Wbudowane dekoratory to np. @staticmethod, @classmethod czy
+								@property.</li>
+							<li>Programiści mogą także tworzyć własne dekoratory w zależności od
+								potrzeb.</li>
+							<li>@property który umożliwia definiowanie tzw. właściwości
+								(properties) dla klas.
+								Właściwości pozwalają na dostęp do atrybutów obiektu tak, jakby były atrybutami klasy,
+								jednocześnie umożliwiając
+								bardziej zaawansowane operacje przy odczycie i zapisie wartości.</li>
+						</ul>
+
+					</small>
+					<small>
+
+					</small>
+				</section>
+			</section>
+
+			<section>
+				<h2>Przykład</h2>
+				<pre><code data-trim class="python">class Zwierze:
+		def __init__(self, imie):
+				self.imie = imie
+
+		def przedstaw_sie(self):
+				pass
+
+class Pies(Zwierze):
+		def przedstaw_sie(self):
+				print(f"Jestem psem o imieniu {self.imie}.")
+
+class Kot(Zwierze):
+		def przedstaw_sie(self):
+				print(f"Jestem kotem o imieniu {self.imie}.")
+
+</code></pre>
+				<small>W tym przykładzie utworzono klasy <b>Zwierze</b>, <b>Pies</b> i <b>Kot</b>, demonstrując
+					polimorfizm poprzez przesłanianie metody
+					<b>przedstaw_sie</b>.</small>
+
+
+			</section>
+			<section>
+				<h2>Abstrakcja w pythonie</h2>
+				<section>
+									<small>W Pythonie, moduł abc (Abstract Base Classes) dostarcza mechanizmów do tworzenia klas abstrakcyjnych i metod
+										abstrakcyjnych. Klasa abstrakcyjna to klasa, która nie może być instancjonowana bezpośrednio, a metoda abstrakcyjna
+										to
+										metoda, która jest deklarowana, ale nie ma implementacji w samej klasie. Klasy dziedziczące po klasie abstrakcyjnej
+										muszą dostarczyć implementację dla wszystkich jej metod abstrakcyjnych.</small>
+				</section>
+				<section>
+					<pre style="font-size: 14px"><code style="max-height: 350px;" data-trim class="python">from abc import ABC, abstractmethod
+					
+class FiguraGeometryczna(ABC):
+		@abstractmethod
+		def oblicz_powierzchnie(self):
+				pass
+
+class Kolo(FiguraGeometryczna):
+		def __init__(self, promien):
+				self.promien = promien
+
+		def oblicz_powierzchnie(self):
+				return 3.14 * self.promien ** 2
+
+class Prostokat(FiguraGeometryczna):
+		def __init__(self, dlugosc, szerokosc):
+				self.dlugosc = dlugosc
+				self.szerokosc = szerokosc
+
+		def oblicz_powierzchnie(self):
+				return self.dlugosc * self.szerokosc
+
+# Przykład użycia
+kolo = Kolo(5)
+print(f"Powierzchnia koła: {kolo.oblicz_powierzchnie()}")
+
+prostokat = Prostokat(4, 6)
+print(f"Powierzchnia prostokąta: {prostokat.oblicz_powierzchnie()}")
+					</code></pre>
+					<small>
+						W tym przykładzie <b>FiguraGeometryczna</b> to klasa abstrakcyjna, która posiada jedną metodę abstrakcyjną
+						<b>oblicz_powierzchnie()</b>. Klasy <b>Kolo</b> i <b>Prostokat</b> dziedziczą po tej klasie abstrakcyjnej i
+						dostarczają implementację metody
+						<b>oblicz_powierzchnie()</b>.
+					
+						Jeśli klasa dziedzicząca nie dostarczy implementacji metody abstrakcyjnej, Python wygeneruje błąd <b>TypeError</b>
+						podczas
+						próby instancjonowania tej klasy.
+					</small>
+
+				</section>
+
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/zoom/zoom.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/search/search.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+
+		// Also available as an ES module, see:
+		// https://revealjs.com/initialization/
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
+		});
+
+	</script>
+
+</body>
+
+</html>
