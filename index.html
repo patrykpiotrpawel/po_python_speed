@@ -87,6 +87,31 @@ samochod1 = Samochod("Toyota", "Camry")
 						wymogiem.
 					</small>
 				</section>
+				
+				<section>
+					<h3>Więcej o klasach i obiektach</h3>
+					<ul>
+						<li><b>Klasa</b> definiuje strukturę i zachowanie obiektów – określa, jakie atrybuty i metody będą miały jej instancje.</li>
+						<li><b>Obiekt</b> to konkretny egzemplarz klasy, posiadający własne wartości atrybutów.</li>
+						<li>Można utworzyć wiele obiektów tej samej klasy, każdy z własnym stanem.</li>
+						<li>Metoda <b>__init__</b> to tzw. konstruktor – jest wywoływana automatycznie podczas tworzenia obiektu.</li>
+						<li>Obiekty mogą być przekazywane jako argumenty do funkcji, zwracane z funkcji i przechowywane w strukturach danych.</li>
+					</ul>
+					<pre><code data-trim class="python">class Student:
+		def __init__(self, imie, nr_indeksu):
+				self.imie = imie
+				self.nr_indeksu = nr_indeksu
+
+student1 = Student("Anna", 12345)
+student2 = Student("Jan", 67890)
+
+print(student1.imie)  # Anna
+print(student2.nr_indeksu)  # 67890
+</code></pre>
+					<small>
+						Każdy obiekt <b>Student</b> ma własne wartości atrybutów <b>imie</b> i <b>nr_indeksu</b>. Dzięki temu można łatwo reprezentować wiele różnych studentów w programie.
+					</small>
+				</section>
 				<section>
 					<p>Atrybuty i metody</p>
 					<small>Atrybuty to zmienne przypisane do obiektu.</small>
@@ -108,14 +133,56 @@ wynik = kalk.dodaj(3)
 				<section>
 					<p>Tworzenie nowej klasy na podstawie istniejącej.</p>
 					<pre><code data-trim class="python">class Pojazd:
-		def ruszaj(self):
-				print("Pojazd rusza.")
+        def ruszaj(self):
+                print("Pojazd rusza.")
 
 class Samochod(Pojazd):
-		def zatrzymaj(self):
-				print("Samochód zatrzymuje się.")
-	</code></pre>
+        def zatrzymaj(self):
+                print("Samochód zatrzymuje się.")
+    </code></pre>
 				</section>
+				<section>
+                    <h3>Czym jest dziedziczenie?</h3>
+                    <ul>
+                        <li>Pozwala tworzyć nowe klasy na podstawie już istniejących (klas bazowych).</li>
+                        <li>Nowa klasa (pochodna) dziedziczy atrybuty i metody klasy bazowej.</li>
+                        <li>Umożliwia ponowne wykorzystanie kodu i łatwiejsze zarządzanie złożonymi systemami.</li>
+                        <li>Klasa pochodna może rozszerzać lub modyfikować zachowanie klasy bazowej.</li>
+                    </ul>
+                    <pre><code data-trim class="python">class Zwierze:
+        def daj_glos(self):
+                print("To jest ogólny dźwięk zwierzęcia.")
+
+class Pies(Zwierze):
+        def daj_glos(self):
+                print("Hau hau!")
+pies = Pies()
+pies.daj_glos()  # Hau hau!
+</code></pre>
+                </section>
+                <section>
+                    <h3>super() i rozszerzanie funkcjonalności</h3>
+                    <ul>
+                        <li>Funkcja <b>super()</b> pozwala odwołać się do metod klasy bazowej.</li>
+                        <li>Umożliwia wywołanie oryginalnej implementacji i jej rozszerzenie.</li>
+                    </ul>
+                    <pre><code data-trim class="python">class Pracownik:
+        def __init__(self, imie):
+                self.imie = imie
+
+class Programista(Pracownik):
+        def __init__(self, imie, jezyk):
+                super().__init__(imie)
+                self.jezyk = jezyk
+
+p = Programista("Ola", "Python")
+print(p.imie)   # Ola
+print(p.jezyk)  # Python
+</code></pre>
+                    <small>
+                        <b>super().__init__(imie)</b> wywołuje konstruktor klasy bazowej, dzięki czemu nie trzeba powielać kodu inicjalizującego.
+                    </small>
+                </section>
 				<section>
 					<p>Dziedziczenie wielkrotne.</p>
 					<pre><code data-trim class="python">class PierwszaKlasaNadrzedna:
@@ -172,8 +239,63 @@ c = a + b
 </code></pre>
 				</section>
 				<section>
-					<h3>Wywołanie obiektu jak funkcji</h3>
-					<pre><code data-trim class="python">class Licznik:
+                    <h3>Czym jest polimorfizm?</h3>
+                    <ul>
+                        <li>Pozwala używać tych samych metod lub interfejsów dla różnych typów obiektów.</li>
+                        <li>Obiekty różnych klas mogą być traktowane w ten sam sposób, jeśli implementują te same metody.</li>
+                        <li>Ułatwia rozszerzanie i modyfikowanie kodu bez konieczności zmiany istniejących funkcji.</li>
+                    </ul>
+                    <pre><code data-trim class="python">class Zwierze:
+        def daj_glos(self):
+                print("Zwierzę wydaje dźwięk.")
+
+class Pies(Zwierze):
+        def daj_glos(self):
+                print("Hau hau!")
+
+class Kot(Zwierze):
+        def daj_glos(self):
+                print("Miau!")
+
+def wydaj_dzwiek(zwierze):
+        zwierze.daj_glos()
+
+wydaj_dzwiek(Pies())  # Hau hau!
+wydaj_dzwiek(Kot())   # Miau!
+</code></pre>
+                    <small>
+                        Funkcja <b>wydaj_dzwiek</b> działa poprawnie dla każdego obiektu, który posiada metodę <b>daj_glos</b>, niezależnie od jego klasy.
+                    </small>
+                </section>
+                <section>
+                    <h3>Polimorfizm w praktyce</h3>
+                    <ul>
+                        <li>Polimorfizm umożliwia tworzenie uniwersalnych funkcji i struktur danych.</li>
+                        <li>Przykład: lista różnych obiektów i wywołanie tej samej metody na każdym z nich.</li>
+                    </ul>
+                    <pre><code data-trim class="python">class Kaczka:
+        def plywaj(self):
+                print("Kaczka pływa.")
+
+class Lódz:
+        def plywaj(self):
+                print("Łódź płynie.")
+
+obiekty = [Kaczka(), Lódz()]
+
+for obiekt in obiekty:
+        obiekt.plywaj()
+# Wynik:
+# Kaczka pływa.
+# Łódź płynie.
+</code></pre>
+                    <small>
+                        Każdy obiekt w liście <b>obiekty</b> posiada metodę <b>plywaj</b>, więc można je obsłużyć w ten sam sposób, mimo że należą do różnych klas.
+                    </small>
+                </section>
+                <section>
+                    <h3>Wywołanie obiektu jak funkcji</h3>
+                    <pre><code data-trim class="python">class Licznik:
 		def __init__(self):
 				self.liczba = 0
 
@@ -195,11 +317,63 @@ print(licznik()) # Ponowne wywołanie
 					<p>Ukrywanie danych</p>
 					<small>Publiczne, chronione i prywatne atrybuty.</small>
 					<pre><code data-trim class="python">class KontoBankowe:
-		def __init__(self, saldo):
-				self._saldo = saldo # chroniony
-				self.__haslo = "tajne" # prywatny
+        def __init__(self, saldo):
+                self._saldo = saldo # chroniony
+                self.__haslo = "tajne" # prywatny
 </code></pre>
 				</section>
+				<section>
+                    <h3>Poziomy dostępu do atrybutów</h3>
+                    <ul>
+                        <li><b>Publiczne</b> (np. <code>self.imie</code>): dostępne z każdego miejsca.</li>
+                        <li><b>Chronione</b> (np. <code>self._saldo</code>): konwencja, że nie powinny być używane poza klasą i jej podklasami.</li>
+                        <li><b>Prywatne</b> (np. <code>self.__haslo</code>): Python stosuje tzw. name mangling, utrudniając dostęp spoza klasy.</li>
+                    </ul>
+                    <pre><code data-trim class="python">class Przyklad:
+        def __init__(self):
+                self.publiczny = 1
+                self._chroniony = 2
+                self.__prywatny = 3
+
+obiekt = Przyklad()
+print(obiekt.publiczny)    # 1
+print(obiekt._chroniony)   # 2 (można, ale niezalecane)
+# print(obiekt.__prywatny) # Błąd!
+print(obiekt._Przyklad__prywatny) # 3 (name mangling)
+</code></pre>
+                    <small>
+                        Python nie wymusza ścisłej ochrony, ale stosuje konwencje i mechanizm name mangling dla prywatnych atrybutów.
+                    </small>
+                </section>
+                <section>
+                    <h3>Hermetyzacja z użyciem getterów i setterów</h3>
+                    <ul>
+                        <li>Hermetyzacja pozwala kontrolować dostęp do atrybutów za pomocą metod typu getter i setter.</li>
+                        <li>W Pythonie można użyć dekoratora <code>@property</code> do tworzenia właściwości.</li>
+                    </ul>
+                    <pre><code data-trim class="python">class Osoba:
+        def __init__(self, wiek):
+                self._wiek = wiek
+
+        @property
+        def wiek(self):
+                return self._wiek
+
+        @wiek.setter
+        def wiek(self, nowy_wiek):
+                if nowy_wiek >= 0:
+                        self._wiek = nowy_wiek
+                else:
+                        raise ValueError("Wiek nie może być ujemny.")
+
+os = Osoba(25)
+print(os.wiek)   # 25
+os.wiek = 30     # setter
+</code></pre>
+                    <small>
+                        Dzięki <b>@property</b> można bezpiecznie udostępniać atrybuty i kontrolować ich modyfikację.
+                    </small>
+                </section>
 				<section>
 					<p>Manglingu</p>
 					<small>Mechanizm manglingu polega na dodaniu przed nazwą metody prefiksu z nazwą klasy, co sprawia,
@@ -287,34 +461,86 @@ class Kot(Zwierze):
 			<section>
 				<h2>Abstrakcja w pythonie</h2>
 				<section>
-									<small>W Pythonie, moduł abc (Abstract Base Classes) dostarcza mechanizmów do tworzenia klas abstrakcyjnych i metod
-										abstrakcyjnych. Klasa abstrakcyjna to klasa, która nie może być instancjonowana bezpośrednio, a metoda abstrakcyjna
-										to
-										metoda, która jest deklarowana, ale nie ma implementacji w samej klasie. Klasy dziedziczące po klasie abstrakcyjnej
-										muszą dostarczyć implementację dla wszystkich jej metod abstrakcyjnych.</small>
-				</section>
-				<section>
-					<pre style="font-size: 14px"><code style="max-height: 350px;" data-trim class="python">from abc import ABC, abstractmethod
-					
+                                    <small>W Pythonie, moduł abc (Abstract Base Classes) dostarcza mechanizmów do tworzenia klas abstrakcyjnych i metod
+                                        abstrakcyjnych. Klasa abstrakcyjna to klasa, która nie może być instancjonowana bezpośrednio, a metoda abstrakcyjna
+                                        to
+                                        metoda, która jest deklarowana, ale nie ma implementacji w samej klasie. Klasy dziedziczące po klasie abstrakcyjnej
+                                        muszą dostarczyć implementację dla wszystkich jej metod abstrakcyjnych.</small>
+                </section>
+                <section>
+                    <h3>Czym jest abstrakcja?</h3>
+                    <ul>
+                        <li>Abstrakcja pozwala ukryć szczegóły implementacyjne i pokazać tylko istotne cechy obiektu.</li>
+                        <li>W Pythonie realizowana jest przez klasy i metody abstrakcyjne (moduł <code>abc</code>).</li>
+                        <li>Klasa abstrakcyjna definiuje interfejs, który muszą zaimplementować klasy pochodne.</li>
+                        <li>Nie można utworzyć instancji klasy abstrakcyjnej – służy ona jako szablon.</li>
+                    </ul>
+                    <pre><code data-trim class="python">from abc import ABC, abstractmethod
+
+class Zwierze(ABC):
+    @abstractmethod
+    def daj_glos(self):
+        pass
+
+# zw = Zwierze()  # TypeError: Can't instantiate abstract class
+</code></pre>
+                    <small>
+                        Klasa <b>Zwierze</b> jest abstrakcyjna – nie można utworzyć jej instancji, dopóki nie zostaną zaimplementowane wszystkie metody abstrakcyjne.
+                    </small>
+                </section>
+                <section>
+                    <h3>Praktyczne zastosowanie abstrakcji</h3>
+                    <ul>
+                        <li>Abstrakcja ułatwia projektowanie dużych systemów – pozwala skupić się na interfejsie, a nie szczegółach implementacji.</li>
+                        <li>Klasy pochodne muszą zaimplementować wszystkie metody oznaczone jako <code>@abstractmethod</code>.</li>
+                    </ul>
+                    <pre><code data-trim class="python">from abc import ABC, abstractmethod
+
+class Narzedzie(ABC):
+    @abstractmethod
+    def uzyj(self):
+        pass
+
+class Mlotek(Narzedzie):
+    def uzyj(self):
+        print("Uderzanie młotkiem.")
+
+class Srubokret(Narzedzie):
+    def uzyj(self):
+        print("Wkręcanie śrubokrętem.")
+
+def testuj_narzedzie(narzedzie):
+    narzedzie.uzyj()
+
+testuj_narzedzie(Mlotek())
+testuj_narzedzie(Srubokret())
+</code></pre>
+                    <small>
+                        Funkcja <b>testuj_narzedzie</b> działa dla każdego narzędzia, które implementuje metodę <b>uzyj</b>, niezależnie od szczegółów działania.
+                    </small>
+                </section>
+                <section>
+                    <pre style="font-size: 14px"><code style="max-height: 350px;" data-trim class="python">from abc import ABC, abstractmethod
+                    
 class FiguraGeometryczna(ABC):
-		@abstractmethod
-		def oblicz_powierzchnie(self):
-				pass
+        @abstractmethod
+        def oblicz_powierzchnie(self):
+                pass
 
 class Kolo(FiguraGeometryczna):
-		def __init__(self, promien):
-				self.promien = promien
+        def __init__(self, promien):
+                self.promien = promien
 
-		def oblicz_powierzchnie(self):
-				return 3.14 * self.promien ** 2
+        def oblicz_powierzchnie(self):
+                return 3.14 * self.promien ** 2
 
 class Prostokat(FiguraGeometryczna):
-		def __init__(self, dlugosc, szerokosc):
-				self.dlugosc = dlugosc
-				self.szerokosc = szerokosc
+        def __init__(self, dlugosc, szerokosc):
+                self.dlugosc = dlugosc
+                self.szerokosc = szerokosc
 
-		def oblicz_powierzchnie(self):
-				return self.dlugosc * self.szerokosc
+        def oblicz_powierzchnie(self):
+                return self.dlugosc * self.szerokosc
 
 # Przykład użycia
 kolo = Kolo(5)
@@ -322,46 +548,17 @@ print(f"Powierzchnia koła: {kolo.oblicz_powierzchnie()}")
 
 prostokat = Prostokat(4, 6)
 print(f"Powierzchnia prostokąta: {prostokat.oblicz_powierzchnie()}")
-					</code></pre>
-					<small>
-						W tym przykładzie <b>FiguraGeometryczna</b> to klasa abstrakcyjna, która posiada jedną metodę abstrakcyjną
-						<b>oblicz_powierzchnie()</b>. Klasy <b>Kolo</b> i <b>Prostokat</b> dziedziczą po tej klasie abstrakcyjnej i
-						dostarczają implementację metody
-						<b>oblicz_powierzchnie()</b>.
-					
-						Jeśli klasa dziedzicząca nie dostarczy implementacji metody abstrakcyjnej, Python wygeneruje błąd <b>TypeError</b>
-						podczas
-						próby instancjonowania tej klasy.
-					</small>
+                    </code></pre>
+                    <small>
+                        W tym przykładzie <b>FiguraGeometryczna</b> to klasa abstrakcyjna, która posiada jedną metodę abstrakcyjną
+                        <b>oblicz_powierzchnie()</b>. Klasy <b>Kolo</b> i <b>Prostokat</b> dziedziczą po tej klasie abstrakcyjnej i
+                        dostarczają implementację metody
+                        <b>oblicz_powierzchnie()</b>.
+                    
+                        Jeśli klasa dziedzicząca nie dostarczy implementacji metody abstrakcyjnej, Python wygeneruje błąd <b>TypeError</b>
+                        podczas
+                        próby instancjonowania tej klasy.
+                    </small>
 
-				</section>
-
-			</section>
-		</div>
-	</div>
-
-	<script src="dist/reveal.js"></script>
-	<script src="plugin/zoom/zoom.js"></script>
-	<script src="plugin/notes/notes.js"></script>
-	<script src="plugin/search/search.js"></script>
-	<script src="plugin/markdown/markdown.js"></script>
-	<script src="plugin/highlight/highlight.js"></script>
-	<script>
-
-		// Also available as an ES module, see:
-		// https://revealjs.com/initialization/
-		Reveal.initialize({
-			controls: true,
-			progress: true,
-			center: true,
-			hash: true,
-
-			// Learn about plugins: https://revealjs.com/plugins/
-			plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
-		});
-
-	</script>
-
-</body>
-
-</html>
+                </section>
+<!--
